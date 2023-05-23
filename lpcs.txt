@@ -1,0 +1,150 @@
+linux commands:
+Sudo su: root accesss
+cat > filename it only create one file: To create file command is
+touch file1 file2 file3: To create n no.of files 
+cat >> filename: For existing file to add some matter
+mkdir filename: To create directory
+rmdir filename or  rm –rf   filename  (- rf =recursive force ful): To remove directory
+Ls – list of files
+Ls  -l :lsit of long lasting files
+Ls –a :list of hidden files
+Clear or clt+l : clear screen
+Cp <source> <destination>: to copy files to directory (source-file &destination-directory)
+Cp –rvf  <dir1><dir2: to copy directory to directory
+Mv file1 file2(mv <old name> <new name>) : this use to move or rename 
+Ifconfig: to see private ip address
+Curl –s ifconig.me: to see public ip
+Cd: change directory
+Cd /: direct back to root
+Cd ..: one step backward
+Gzip : zip the file or dir
+Gunzip: unzip the file or dir
+Tar –cvf  myarchive.tar  file1 file2 : gro
+Tar –xvf myarchive.tar
+Tar –tvf myarchive.tar
+Zcat filename: zip can show in e[discryted fromat
+Nano filename : text editor
+Vi :editor
+Wget : it will get from url   
+Uname
+Whoami
+Head file: it shows top lines
+Tail file : it shows bottom lines
+History: it history of commands
+Grep “word” filename: it will search command
+Touch{a..z}: to create a to z files
+du: size of directory
+vi filename : vi  editor 
+i) insert mode==> creatinngfiles press i key 
+ii) cli mode==> type and modify the matter
+iii) extended mode==> save and quit
+commmand : esc press i for insert and after inserting ==> esc shift+ :wq!==> save the file and exit
+esc shift+dd ==> to delete particular line
+esc shift+ :q! ==> to unsave file 
+find /name ==> to find word
+grep and find==> grep is used to seaarch known user , files,directories and find is used to ser=arch unknown user,files,directories
+ls -l | grep name
+for case sensitive
+ls -l | gre[ -i name
+to change the ownership 
+chown -R u:u filename
+filter commands:
+head ==> line by  line
+tail ==> line by  line
+more ==>page by page
+less==> page by page 
+to see users :
+cat /etc/passwd
+to give permission to files and directories
+we have security to have 3 stages they are;
+userlevel,groulevel,otherslevel
+r==>read=4
+w==>write=2
+x==>exeute=1
+-rw(userlevel) r--(grouplevel) r--(otherslevel)
+command: we want 6on ul and 3on gl 1on ol
+chmod u=rw,g=wx,o=x filename
+it is classified into 2types they are:
+1) symbolic method=it has aplhabetic order
+ex; command: we want 6on ul and 3on gl 1on ol
+chmod u=rw,g=wx,o=x filename
+
+2)abolute method= it has neumerical order
+ex: yuvi 655
+chmod 655 yuvi
+files full persmission= 666
+directory full permision=777
+default file permission= 644
+default directory permission=755
+umask=file permissions are stored in umask 
+umask ==> 022
+666 -022=644
+777 - -022=755
+booting process:
+ex: windows ==> power butoon on => press=> passwd => in b/w power on and passwd is known as booting proces
+same as in linux
+booting process has 6 stages:
+1)BIOS 
+2)MBR
+3)GRUB
+4)KERNEL
+5)INIT
+6)RUN LEVELS
+
+i)bios checl sytem intigerity check system"s hardware like : cpu,hardisk,motherboard=>properly working or not?
+
+ii)mbr has 3 components they are ;
+1)partition bootloader==> 446 bytes
+2)partition table information==>64 bytes
+3)mbr valadition check ==> 2bytes
+mbr size= 512 bytes
+iii)grub contains informatin 
+root device information ==> /dev/xvda
+multiple kernel images==> 5,6,7,8
+default time ==> ??
+timeout ==> ??
+grub contains one configurartion file ==>this configuration file link==>/etc/grub.conf to edit we use vi editor: vi/boot/grub/grub.conf
+iv) kernel is the mediator of os and hardware and it is heart of os
+it will manage sdevices information ,muktitasking and filesystem information
+v) init it is parent of all process
+each process has their own unique identification number 
+procees==. unuiqe id ==>. process id ==> pid
+init ==> pid = 1
+root ==> pid = 0
+V 39  ls -l | grep  -i  men
+   40  mkdir QQQ
+   41  ls -l | grep -i qqq
+   42  chown u=rwx,g=rwx,o=rw and
+   43  chown u=rwx,g=rwx,o=rw  and
+   44  chown 700 and
+   45  ls -ll
+   46  chown 700:700 and
+   47  ls -ll
+   48  useradd ddy
+   49  cat /etc/passwd
+   50  ls
+   51  ls -ll
+   52  chmod u=rwx,g=rwx,o=rw and
+   53  ls -ll
+   54  ls
+   55  ping google.comm
+   56  ping google.com
+   57  ss
+   58  df
+   59  df -h
+   60  installgit
+   61  install git
+   62  apt install git
+   63  ls
+   64  vi /tmp/central.pem
+   65  chmod 700 /tmp/central.pem
+   66  ls
+   67  history
+   68  cp hsitory mass
+   69  cp history mass
+   70  history /mass
+   71  ls
+   72  history > mass
+root@DESKTOP-4FPMPUC:/home/coder# ls
+
+   
