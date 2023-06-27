@@ -40,7 +40,7 @@ pipeline{
             }
         stage('Build Docker Image'){
             steps{
-                 sh 'docker build -t udaydockerhub0110/spring-boot-mongo .'
+                 sh 'docker build -t uday0110dockerhub/spring-boot-mongo .'
                  sh 'docker build -t tomcat:${BUILD_NUMBER} .'
                  sh 'docker run -itd --name shiva11 -p 2020:8080 tomcat:${BUILD_NUMBER}'
              }
@@ -48,9 +48,9 @@ pipeline{
         stage('Push Docker Image'){
              steps{
                   withCredentials([string(credentialsId: 'DOCKER_HUB_CREDENTIALS', variable: 'DOCKER_HUB_CREDENTIALS')]) {
-                      sh "docker login -u udaydockerhub0110 -p ${DOCKER_HUB_CREDENTIALS}"
+                      sh "docker login -u uday0110dockerhub -p ${DOCKER_HUB_CREDENTIALS}"
             }
-            sh 'docker push udaydockerhub0110/spring-boot-mongo'
+            sh 'docker push uday0110dockerhub/spring-boot-mongo'
         }
       }
         
