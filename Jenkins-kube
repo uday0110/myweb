@@ -53,6 +53,9 @@ pipeline{
       }
         stage("Deploy To Kuberates Cluster"){
               steps{
+                  script{
+                      readProp = readProperties file: 'build.properties'
+                  }  
                    kubernetesDeploy(
                    configs: 'springBoot.yml', 
                    kubeconfigId: 'KUBERNETES_CLUSTER_CONFIG',
