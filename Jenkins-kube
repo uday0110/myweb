@@ -54,9 +54,6 @@ pipeline{
         stage("Deploy To Kuberates Cluster"){
               steps{
                   script{
-                      readProp = readProperties file: 'build.properties'
-                  }  
-            echo "This is running on ${readProp['deploy.type']}"
                    kubernetesDeploy(
                    configs: 'springBoot.yml', 
                    kubeconfigId: 'KUBERNETES_CLUSTER_CONFIG',
