@@ -53,10 +53,6 @@ pipeline{
             
             }
         }
-post{
-  always{
-emailext body: '"<br> project: ${envJOB NAME} <br> build number: ${env.BUILD NUMBER} <br> url: ${env.BUILD URL}"', subject: '${currentBuild.result}', to: 'mandalojiuday@gmail.com'
-}
-}
-}
-}
+    }
+
+
