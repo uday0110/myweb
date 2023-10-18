@@ -1,7 +1,5 @@
 <html>
 <body>
-	<h1 style="color: green; font-size: 40px;" align="center">  deploy.app.name=DevOpsWeb
-deploy.enivronment=SandBox New
-deploy.type=staging</h1>
+	<h1 style="color: green; font-size: 40px;" align="center"> Hello world </h1>
 </body>
 </html>
