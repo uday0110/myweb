@@ -54,16 +54,14 @@ pipeline{
             }
         }
 stage('Email') {
-    steps {
-        script {
-            def mailRecipients = 'open7673@gmail.com'
-            def jobName = currentBuild.fullDisplayName
-            emailext body: '''${SCRIPT, template="groovy-html.template"}''',
-            mimeType: 'text/html',
-            subject: "[Jenkins] ${jobName}",
-            to: "open7673@gmail.com",
-            replyTo: "open7673@gmail.com",
-            recipientProviders: [[$class: 'CulpritsRecipientProvider']]
+    post {
+        success {
+            // Send email notification for successful build
+            emailext subject: "Jenkins Pipeline Success: ${currentBuild.fullDisplayName}",
+                      body: "Your build was successful. Customize this email as needed.",
+                      to: 'open7673@gmail.com',
+                      from: 'open7673@gmail.com',
+                      mimeType: 'text/html'
         }
     }
 }
