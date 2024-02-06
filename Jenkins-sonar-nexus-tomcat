@@ -53,22 +53,25 @@ pipeline{
             
             }
         }
-        stage('Email') {
-            steps {
-                script {
-                    emailext subject: "Jenkins Pipeline Success: ${currentBuild.fullDisplayName}",
-                              body: "Your build was successful. Customize this email as needed.",
-                              to: 'open7673@gmail.com',
-                              from: 'jenkins@example.com',
-                              mimeType: 'text/plain'
-                }
+       post {
+            always {
+                emailext (
+                    subject: "Pipeline Status: ${BUILD_NUMBER}",
+                    body: '''<html>
+                                <body>
+                                    <p>Build Status: ${BUILD_STATUS}</p>
+                                    <p>Build Number: ${BUILD_NUMBER}</p>
+                                    <p>Check the <a href="${BUILD_URL}">console output</a>.</p>
+                                </body>
+                            </html>''',
+                    to: 'open7673@gmail.com',
+                    from: 'jenkins@example.com',
+                    replyTo: 'jenkins@example.com',
+                    mimeType: 'text/html'
+                )
             }
         }
-    } catch (Exception e) {
-        // Log or handle errors as needed
-        echo "Failed to send email notification: ${e.message}"
-    }
-}
+
 }
 
 
