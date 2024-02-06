@@ -53,18 +53,17 @@ pipeline{
             
             }
         }
-stage('Email') {
-    steps {
-        script {
-            def mailRecipients = 'mandalojiuday@gmail.com'
-            def jobName = currentBuild.fullDisplayName
-            emailext body: '''${SCRIPT, template="groovy-html.template"}''',
-            mimeType: 'text/html',
-            subject: "[Jenkins] ${jobName}",
-            to: "${mailRecipients}",
-            replyTo: "${mailRecipients}",
-            recipientProviders: [[$class: 'CulpritsRecipientProvider']]
-        }
+post {
+        failure {
+            emailext attachmentsPattern: 'test.zip', body: '''${SCRIPT, template="groovy-html.template"}''', 
+                    subject: "${env.JOB_NAME} - Build # ${env.BUILD_NUMBER} - Failed", 
+                    mimeType: 'text/html',to: "open7673@gmail.com"
+            }
+         success {
+               emailext attachmentsPattern: 'test.zip', body: '''${SCRIPT, template="groovy-html.template"}''', 
+                    subject: "${env.JOB_NAME} - Build # ${env.BUILD_NUMBER} - Successful", 
+                    mimeType: 'text/html',to: "open7673@gmail.com"
+          }      
     }
 }
 }
