@@ -61,8 +61,8 @@ stage('Email') {
             emailext body: '''${SCRIPT, template="groovy-html.template"}''',
             mimeType: 'text/html',
             subject: "[Jenkins] ${jobName}",
-            to: "${open7673@gmail.com}",
-            replyTo: "${open7673@gmail.com}",
+            to: "open7673@gmail.com",
+            replyTo: "open7673@gmail.com",
             recipientProviders: [[$class: 'CulpritsRecipientProvider']]
         }
     }
