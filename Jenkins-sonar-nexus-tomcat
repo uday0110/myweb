@@ -52,14 +52,6 @@ pipeline {
                 }
             }
         }
-        
-        stage("Run Additional Tests") {
-            // Add your additional tests or scripts here
-            steps {
-                // Example: Run additional tests using Maven
-                sh "mvn test"
-            }
-        }
     }
 
     post {
