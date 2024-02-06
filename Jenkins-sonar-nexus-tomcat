@@ -70,8 +70,8 @@ pipeline {
                 from: 'jenkins@example.com',
                 replyTo: 'jenkins@example.com',
                 mimeType: 'text/html'
+                attachmentsPattern: 'build-log.txt'
             )
-         attachLog 'build-log.txt'
          echo "Pipeline Status: ${BUILD_STATUS}"
          echo "Build Number: ${BUILD_NUMBER}"
          echo "Check the console output: ${BUILD_URL}"
