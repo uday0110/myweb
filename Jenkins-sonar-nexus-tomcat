@@ -71,21 +71,6 @@ pipeline {
                 replyTo: 'jenkins@example.com',
                 mimeType: 'text/html'
             )
-{
-stage('Email') {
-    steps {
-        script {
-            def mailRecipients = 'mandalojiuday@gmail.com'
-            def jobName = currentBuild.fullDisplayName
-            emailext body: '''${SCRIPT, template="groovy-html.template"}''',
-            mimeType: 'text/html',
-            subject: "[Jenkins] ${jobName}",
-            to: "$mandalojiuday@gmail.com",
-            replyTo: "$mailRecipients",
-            recipientProviders: [[$class: 'CulpritsRecipientProvider']]
-        }
-    }
-}
         }
     }
 }
