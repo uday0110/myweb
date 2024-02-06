@@ -71,6 +71,7 @@ pipeline {
                 replyTo: 'jenkins@example.com',
                 mimeType: 'text/html'
             )
+}
 stage('Email') {
     steps {
         script {
