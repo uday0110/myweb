@@ -53,7 +53,9 @@ pipeline{
             
             }
         }
-       post {
+        stage("Email-Notification"){
+           steps{
+               post {
             always {
                 emailext (
                     subject: "Pipeline Status: ${BUILD_NUMBER}",
@@ -73,5 +75,5 @@ pipeline{
         }
 }
 }
-
-
+}
+}
