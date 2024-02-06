@@ -61,7 +61,7 @@ stage('Email') {
                       body: "Your build was successful. Customize this email as needed.",
                       to: 'open7673@gmail.com',
                       from: 'open7673@gmail.com',
-                      mimeType: 'text/html'
+                      mimeType: 'text/plain'
         }
     }
 }
