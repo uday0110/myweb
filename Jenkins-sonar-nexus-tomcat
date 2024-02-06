@@ -54,6 +54,7 @@ pipeline{
             }
         }
 stage('Email') {
+    steps{
     post {
         success {
             // Send email notification for successful build
