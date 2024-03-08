@@ -1,0 +1,37 @@
+pipeline {
+    agent any
+    
+    environment {
+        PATH = "C:\\Program Files\\Git\\bin;C:\\Program Files\\Maven\\bin;C:\\path\\to\\Tomcat\\bin;" + "${env.PATH}"
+        TOMCAT_PATH = "C:\\path\\to\\Tomcat"
+        REPO_URL = 'https://github.com/uday0110/myweb.git'
+        TOMCAT_SERVER = 'localhost'  // Update with your Tomcat server details
+        TOMCAT_PORT = '8080'         // Update with your Tomcat port
+        TOMCAT_USERNAME = 'your_username'
+        TOMCAT_PASSWORD = 'your_password'
+    }
+
+    stages {
+        stage("Git Checkout") {
+            steps {
+                bat "git clone ${REPO_URL}"
+            }
+        }
+
+        stage("Maven Build") {
+            steps {
+                bat "cd myweb && mvn clean package"
+            }
+        }
+
+        stage("Deploy to Tomcat") {
+            steps {
+                script {
+                    // Deploy to Tomcat using Tomcat Manager
+                    def deployCommand = "curl -v -u ${TOMCAT_USERNAME}:${TOMCAT_PASSWORD} http://${TOMCAT_SERVER}:${TOMCAT_PORT}/manager/text/deploy?path=/myweb --upload-file myweb/target/myweb.war"
+                    bat deployCommand
+                }
+            }
+        }
+    }
+}
