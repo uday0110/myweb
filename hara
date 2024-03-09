@@ -6,3 +6,6 @@ om
 om
 om namah shivaya
 https://medium.com/@mudasirhaji/deploy-a-java-web-app-with-github-jenkins-maven-and-tomcat-on-aws-step-by-step-process-f813c11c9930
+
+
+file:///C:/ProgramData/Jenkins/.jenkins/workspace/new%3Ecopy%20%22target/myweb.war%20%22C:/Program%20Files/Apache%20Software%20Foundation/Tomcat%209.0/webapps/%22%22%20The%20syntax%20of%20the%20command%20is%20incorrect.%20C:/ProgramData/Jenkins/.jenkins/workspace/new%3Eservice%20%22C:/Program%20Files/Apache%20Software%20Foundation/Tomcat%209.0/bin/shutdown.bat%22%20'service'%20is%20not%20recognized%20as%20an%20internal%20or%20external%20command,%20operable%20program%20or%20batch%20file.%20C:/ProgramData/Jenkins/.jenkins/workspace/new%3Eservcie%20%22C:/Program%20Files/Apache%20Software%20Foundation/Tomcat%209.0/bin/startup.bat%22%20'servcie'%20is%20not%20recognized%20as%20an%20internal%20or%20external%20command,%20operable%20program%20or%20batch%20file.%20[Pipeline]%20%7D%20[Pipeline]%20//%20stage%20[Pipeline]%20%7D%20[Pipeline]%20//%20withEnv%20[Pipeline]%20%7D%20[Pipeline]%20//%20node%20[Pipeline]%20End%20of%20Pipeline%20ERROR:%20script%20returned%20exit%20code%201%20Finished:%20FAILURE
