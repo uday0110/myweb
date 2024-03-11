@@ -1,57 +1,76 @@
-pipeline{
+pipeline {
     agent any
-     tools {
+    tools {
         maven 'Maven-3.6.1'
     }
-    
-    environment{
+
+    environment {
         PATH = "/opt/maven3/bin:$PATH"
     }
-    stages{
-        stage("Git Checkout"){
-            steps{
-                git credentialsId: 'javahome2', url: 'https://github.com/srinicloud87/myweb.git'
+
+    stages {
+        stage("Git Checkout") {
+            steps {
+                git credentialsId: 'javahome3', url: 'https://github.com/uday0110/myweb.git'
             }
         }
-        stage("Maven Build"){
-            steps{
+
+        stage("Maven Build") {
+            steps {
                 sh "mvn clean sonar:sonar package"
-                
             }
         }
-        stage('Upload War To Nexus'){
-            steps{
-                  nexusArtifactUploader artifacts: [
-                       [
-                            artifactId: 'myweb', 
-                            classifier: '', 
-                            file: "target/myweb-8.2.0.war", 
-                            type: 'war'
-                       ]
-                  ], 
-                  credentialsId: 'nexus3', 
-                  groupId: 'in.javahome', 
-                  nexusUrl: '172.31.2.14:8081', 
-                  nexusVersion: 'nexus3', 
-                  protocol: 'http', 
-                  repository: 'sample-releases', 
-                  version: '8.2.0'  
-              }
+
+        stage('Upload War To Nexus') {
+            steps {
+                nexusArtifactUploader artifacts: [
+                    [
+                        artifactId: 'myweb',
+                        classifier: '',
+                        file: "target/myweb-8.2.0.war",
+                        type: 'war'
+                    ]
+                ],
+                credentialsId: 'nexus3',
+                groupId: 'in.javahome',
+                nexusUrl: '172.31.2.235:8081',
+                nexusVersion: 'nexus3',
+                protocol: 'http',
+                repository: 'sample-releases',
+                version: '8.2.0'
             }
-        stage("deploy-dev"){
-            steps{
+        }
+
+        stage("deploy-dev") {
+            steps {
                 sshagent(['tomcat-new']) {
-                sh """
-                    scp -o StrictHostKeyChecking=no target/myweb-8.2.0.war  ec2-user@172.31.0.38:/home/ec2-user/apache-tomcat-9.0.75/webapps/
-                    
-                    ssh ec2-user@172.31.0.38 /home/ec2-user/apache-tomcat-9.0.75/bin/shutdown.sh
-                    
-                    ssh ec2-user@172.31.0.38 /home/ec2-user/apache-tomcat-9.0.75/bin/startup.sh
-                
-                """
+                    sh """
+                        scp -o StrictHostKeyChecking=no target/myweb-8.2.0.war  ec2-user@172.31.9.27:/home/ec2-user/apache-tomcat-9.0.85/webapps/
+                        ssh ec2-user@172.31.9.27 /home/ec2-user/apache-tomcat-9.0.85/bin/shutdown.sh
+                        ssh ec2-user@172.31.9.27 /home/ec2-user/apache-tomcat-9.0.85/bin/startup.sh
+                    """
+                }
             }
-            
-            }
+        }
+    }
+
+    post {
+        always {
+            // Add additional post-build steps or notifications here
+            emailext (
+                subject: "Pipeline Status: ${BUILD_NUMBER}",
+                body: '''<html>
+                            <body>
+                                <p>Build Status: ${BUILD_STATUS}</p>
+                                <p>Build Number: ${BUILD_NUMBER}</p>
+                                <p>Check the <a href="${BUILD_URL}">console output</a>.</p>
+                            </body>
+                        </html>''',
+                to: 'close7673@gmail.com',
+                from: 'jenkins@example.com',
+                replyTo: 'jenkins@example.com',
+                mimeType: 'text/html'
+               )
         }
     }
 }

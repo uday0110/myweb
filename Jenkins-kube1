@@ -10,7 +10,7 @@ pipeline{
     stages{
         stage("Git Checkout"){
             steps{
-                git credentialsId: 'javahome2', url: 'https://github.com/uday0110/myweb.git'
+                git credentialsId: 'javahome2', url: 'https://github.com/uday0110/myweb.git/'
             }
         }
         stage("Maven Build"){
@@ -31,18 +31,35 @@ pipeline{
                   ], 
                   credentialsId: 'nexus3', 
                   groupId: 'in.javahome', 
-                  nexusUrl: '172.31.10.131:8081', 
+                  nexusUrl: '172.31.13.73:8081', 
                   nexusVersion: 'nexus3', 
                   protocol: 'http', 
                   repository: 'sample-releases', 
                   version: '8.2.0'  
               }
             }
-        stage("Execute Ansible"){
+        stage('Build Docker Image'){
             steps{
-                ansiblePlaybook credentialsId: 'private-key', disableHostKeyChecking: true, installation: 'ansible2', inventory: 'dev.in', playbook: 'copy.yml'
+                 sh 'docker build -t uday0110/spring-boot-mongo .'
+             }
+         }
+        stage('Push Docker Image'){
+             steps{
+                  withCredentials([string(credentialsId: 'DOCKER_HUB_CREDENTIALS', variable: 'DOCKER_HUB_CREDENTIALS')]) {
+                      sh "docker login -u uday0110 -p ${DOCKER_HUB_CREDENTIALS}"
             }
-           
+            sh 'docker push uday0110/spring-boot-mongo'
         }
+      }
+        stage("Deploy To Kuberates Cluster"){
+              steps{
+                   kubernetesDeploy(
+                   configs: 'springBoot.yml', 
+                   kubeconfigId: 'KUBERNETES_CLUSTER_CONFIG',
+                   enableConfigSubstitution: true
+            )
+        }
+    }
+        
     }
 }

@@ -5,3 +5,25 @@ mahadeva
 om 
 om
 om namah shivaya
+https://medium.com/@mudasirhaji/deploy-a-java-web-app-with-github-jenkins-maven-and-tomcat-on-aws-step-by-step-process-f813c11c9930
+
+
+
+C:\ProgramData\Jenkins\.jenkins\workspace\new>copy "target\myweb.war "C:\Program Files\Apache Software Foundation\Tomcat 9.0\webapps\"" 
+The syntax of the command is incorrect.
+
+C:\ProgramData\Jenkins\.jenkins\workspace\new>"C:\Program Files\Apache Software Foundation\Tomcat 9.0\bin\shutdown.bat"
+The system cannot find the path specified.
+
+C:\ProgramData\Jenkins\.jenkins\workspace\new>"C:\Program Files\Apache Software Foundation\Tomcat 9.0\bin\startup.bat"
+The system cannot find the path specified.
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] End of Pipeline
+ERROR: script returned exit code 1
+Finished: FAILURE
+
