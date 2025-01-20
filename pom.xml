@@ -47,11 +47,11 @@
     <distributionManagement>
         <repository>
             <id>releases</id>
-            <url>https://havisolutions.in/maven2/releases</url>
+            <url>/maven2/releases</url>
         </repository>
         <snapshotRepository>
             <id>snapshots</id>
-            <url>https://havisolutions.in/maven2/snapshots</url>
+            <url>/maven2/snapshots</url>
         </snapshotRepository>
     </distributionManagement>
 </project>
