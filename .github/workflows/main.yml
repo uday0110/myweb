@@ -29,8 +29,10 @@ jobs:
 
       - name: Build with Maven
         run: mvn clean install
-      - name: Copy WAR file to Tomcat
-        run: sudo cp target/myweb.war /usr/local/tomcat/webapps/
+     # - name: Copy WAR file to Tomcat
+     #   run: sudo cp target/myweb.war /usr/local/tomcat/webapps/
+      - name: List files in target directory
+        run: ls
   deploy:
     needs: build
     runs-on: ubuntu-latest
