@@ -14,7 +14,6 @@
     </properties>
 
     <dependencies>
-        <!-- Add your dependencies here -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -48,11 +47,11 @@
     <distributionManagement>
         <repository>
             <id>releases</id>
-            <url>https://repo.maven.apache.org/maven2/releases</url>
+            <url>https://example.com/maven2/releases</url>
         </repository>
         <snapshotRepository>
             <id>snapshots</id>
-            <url>https://repo.maven.apache.org/maven2/snapshots</url>
+            <url>https://example.com/maven2/snapshots</url>
         </snapshotRepository>
     </distributionManagement>
 </project>
