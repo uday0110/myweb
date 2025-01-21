@@ -22,19 +22,7 @@ jobs:
           java-version: '11'
           distribution: 'temurin'
 
-      - name: Cache Maven Dependencies
-        uses: actions/cache@v3
-        with:
-          path: ~/.m2
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-          restore-keys: |
-            ${{ runner.os }}-maven
-
-      # Step 3: Build the Java application with Maven
-      - name: Build Java Application
-        run: mvn clean package -DskipTests
-
-      # Step 4: Log in to Amazon ECR
+      # Step 3: Log in to Amazon ECR
       - name: Login to Amazon ECR
         uses: aws-actions/amazon-ecr-login@v2
         with:
@@ -45,6 +33,10 @@ jobs:
         env:
           JAVA_HOME: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/11.0.25-9/x64
           JAVA_HOME_11_X64: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/11.0.25-9/x64
+
+      # Step 4: Build the Java application with Maven
+      - name: Build Java Application
+        run: mvn clean package -DskipTests
 
       # Step 5: Build and push Docker image to ECR
       - name: Build and Push Docker Image
