@@ -35,9 +35,16 @@ jobs:
         run: mvn clean package -DskipTests
 
       # Step 4: Log in to Amazon ECR
-      - name: Log in to Amazon ECR
-        id: login-ecr
+      - name: Login to Amazon ECR
         uses: aws-actions/amazon-ecr-login@v2
+        with:
+          region: us-west-2  # Specify your AWS region here
+          mask-password: true
+          registry-type: private
+          skip-logout: false
+        env:
+          JAVA_HOME: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/11.0.25-9/x64
+          JAVA_HOME_11_X64: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/11.0.25-9/x64
 
       # Step 5: Build and push Docker image to ECR
       - name: Build and Push Docker Image
