@@ -47,11 +47,16 @@ jobs:
           IMAGE_NAME=myweb
           REPO_URI=${{ secrets.ECR_REPO_URI }}
 
+          if [ -z "$REPO_URI" ]; then
+            echo "REPO_URI is not set"
+            exit 1
+          fi
+
           docker build -t $IMAGE_NAME .
 
-          docker tag $IMAGE_NAME:latest $REPO_URI
+          docker tag $IMAGE_NAME:latest $REPO_URI:latest
 
-          docker push $REPO_URI
+          docker push $REPO_URI:latest
         env:
           REPO_URI: ${{ secrets.ECR_REPO_URI }}
 
@@ -76,4 +81,4 @@ jobs:
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_DEFAULT_REGION: us-east-1
+          AWS_DEFAULT_REGION: us-west-2
