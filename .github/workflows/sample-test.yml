@@ -49,9 +49,9 @@ jobs:
 
           docker build -t $IMAGE_NAME .
 
-          docker tag $IMAGE_NAME:latest $REPO_URI:v1
+          docker tag $IMAGE_NAME:latest $REPO_URI
 
-          docker push $REPO_URI:v1
+          docker push $REPO_URI
         env:
           REPO_URI: ${{ secrets.ECR_REPO_URI }}
 
