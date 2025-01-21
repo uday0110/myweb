@@ -26,11 +26,13 @@ jobs:
       - name: Login to Amazon ECR
         uses: aws-actions/amazon-ecr-login@v2
         with:
-          region: us-west-2  # Specify your AWS region here
           mask-password: true
           registry-type: private
           skip-logout: false
         env:
+          AWS_REGION: us-west-2  # Specify your AWS region here
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           JAVA_HOME: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/11.0.25-9/x64
           JAVA_HOME_11_X64: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/11.0.25-9/x64
 
@@ -63,7 +65,7 @@ jobs:
       # Step 1: Update ECS Service
       - name: Update ECS Service
         run: |
-          REGION=us-east-1 # Update with your AWS region
+          REGION=us-west-2 # Update with your AWS region
           CLUSTER_NAME=myweb-cluster
           SERVICE_NAME=tomcatservice
           REPO_URI=${{ secrets.ECR_REPO_URI }}
