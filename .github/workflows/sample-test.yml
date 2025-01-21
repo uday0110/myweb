@@ -22,38 +22,20 @@ jobs:
 
       - name: Login to Amazon ECR
         uses: aws-actions/amazon-ecr-login@v2
-        with:
-          mask-password: true
-          registry-type: private
-          skip-logout: false
         env:
           AWS_REGION: us-west-2
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          JAVA_HOME: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/11.0.25-9/x64
-          JAVA_HOME_11_X64: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/11.0.25-9/x64
 
       - name: Build Java Application
         run: mvn clean package -DskipTests
 
-      - name: Print Environment Variables
-        run: printenv
-
       - name: Build and Push Docker Image
         run: |
-          REGION=us-west-2
           IMAGE_NAME=myweb
           REPO_URI=${{ secrets.ECR_REPO_URI }}
-
-          if [ -z "$REPO_URI" ]; then
-            echo "REPO_URI is not set"
-            exit 1
-          fi
-
           docker build -t $IMAGE_NAME .
-
           docker tag $IMAGE_NAME:latest $REPO_URI:latest
-
           docker push $REPO_URI:latest
         env:
           REPO_URI: ${{ secrets.ECR_REPO_URI }}
@@ -64,18 +46,69 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Update ECS Service
+      - name: Register New Task Definition
         run: |
           REGION=us-west-2
           CLUSTER_NAME=myweb-cluster
           SERVICE_NAME=tomcatservice
-          REPO_URI=${{ secrets.ECR_REPO_URI }}
+          IMAGE_URI=${{ secrets.ECR_REPO_URI }}:latest
 
-          aws ecs update-service \
-            --cluster $CLUSTER_NAME \
-            --service $SERVICE_NAME \
-            --force-new-deployment \
+          TASK_FAMILY=myweb-task
+          CPU=256
+          MEMORY=512
+          CONTAINER_NAME=myweb-container
+          PORT=8080
+
+          echo "Registering a new task definition..."
+          aws ecs register-task-definition \
+            --family $TASK_FAMILY \
+            --network-mode awsvpc \
+            --execution-role-arn ${{ secrets.EXECUTION_ROLE_ARN }} \
+            --container-definitions "[{
+              \"name\": \"$CONTAINER_NAME\",
+              \"image\": \"$IMAGE_URI\",
+              \"memory\": $MEMORY,
+              \"cpu\": $CPU,
+              \"essential\": true,
+              \"portMappings\": [{
+                \"containerPort\": $PORT,
+                \"hostPort\": $PORT,
+                \"protocol\": \"tcp\"
+              }]
+            }]" \
+            --requires-compatibilities FARGATE \
+            --cpu $CPU \
+            --memory $MEMORY \
             --region $REGION
+
+      - name: Create or Update ECS Service
+        run: |
+          REGION=us-west-2
+          CLUSTER_NAME=myweb-cluster
+          SERVICE_NAME=tomcatservice
+          TASK_FAMILY=myweb-task
+
+          SERVICE_EXISTS=$(aws ecs describe-services --cluster $CLUSTER_NAME --services $SERVICE_NAME --region $REGION --query 'services[0].serviceName' --output text 2>/dev/null || echo "NONE")
+
+          if [ "$SERVICE_EXISTS" = "NONE" ]; then
+            echo "Creating a new ECS service..."
+            aws ecs create-service \
+              --cluster $CLUSTER_NAME \
+              --service-name $SERVICE_NAME \
+              --task-definition $TASK_FAMILY \
+              --desired-count 1 \
+              --launch-type FARGATE \
+              --network-configuration "awsvpcConfiguration={subnets=[${{ secrets.SUBNET_IDS }}],securityGroups=[${{ secrets.SECURITY_GROUP_IDS }}],assignPublicIp=ENABLED}" \
+              --region $REGION
+          else
+            echo "Updating the existing ECS service..."
+            aws ecs update-service \
+              --cluster $CLUSTER_NAME \
+              --service $SERVICE_NAME \
+              --task-definition $TASK_FAMILY \
+              --force-new-deployment \
+              --region $REGION
+          fi
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
