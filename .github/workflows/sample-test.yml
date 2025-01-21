@@ -36,10 +36,8 @@ jobs:
       - name: Build Java Application
         run: mvn clean package -DskipTests
 
-      - name: Debug REPO_URI
-        run: echo $REPO_URI
-        env:
-          REPO_URI: ${{ secrets.ECR_REPO_URI }}
+      - name: Print Environment Variables
+        run: printenv
 
       - name: Build and Push Docker Image
         run: |
@@ -68,7 +66,7 @@ jobs:
     steps:
       - name: Update ECS Service
         run: |
-          REGION=us-west-2
+          REGION=us-east-1
           CLUSTER_NAME=myweb-cluster
           SERVICE_NAME=tomcatservice
           REPO_URI=${{ secrets.ECR_REPO_URI }}
@@ -81,4 +79,4 @@ jobs:
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_DEFAULT_REGION: us-west-2
+          AWS_DEFAULT_REGION: us-east-1
