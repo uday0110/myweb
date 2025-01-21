@@ -103,6 +103,7 @@ jobs:
               --desired-count 1 \
               --launch-type FARGATE \
               --network-configuration "awsvpcConfiguration={subnets=[${{ secrets.SUBNET_IDS }}],securityGroups=[${{ secrets.SECURITY_GROUP_IDS }}],assignPublicIp=ENABLED}" \
+              --deployment-configuration "{\"deploymentCircuitBreaker\": {\"enable\": false, \"rollback\": false}, \"maximumPercent\": 200, \"minimumHealthyPercent\": 100}" \
               --region $REGION
           else
             echo "Updating the existing ECS service..."
@@ -111,6 +112,7 @@ jobs:
               --service $SERVICE_NAME \
               --task-definition $TASK_FAMILY \
               --force-new-deployment \
+              --deployment-configuration "{\"deploymentCircuitBreaker\": {\"enable\": false, \"rollback\": false}, \"maximumPercent\": 200, \"minimumHealthyPercent\": 100}" \
               --region $REGION
           fi
         env:
