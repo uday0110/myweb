@@ -54,8 +54,8 @@ jobs:
           IMAGE_URI=${{ secrets.ECR_REPO_URI }}:latest
 
           TASK_FAMILY=myweb-task
-          CPU=256
-          MEMORY=512
+          CPU=512
+          MEMORY=1000
           CONTAINER_NAME=myweb-container
           PORT=8080
 
