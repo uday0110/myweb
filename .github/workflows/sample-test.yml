@@ -55,7 +55,7 @@ jobs:
 
           TASK_FAMILY=myweb-task
           CPU=512
-          MEMORY=1000
+          MEMORY=1 GB
           CONTAINER_NAME=myweb-container
           PORT=8080
 
