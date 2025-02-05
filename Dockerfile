@@ -1,5 +1,4 @@
-FROM openjdk:11-jdk-slim
-ARG WAR_FILE=target/myweb-8.2.0.war
-COPY ${WAR_FILE} /myweb-8.2.0.war
+FROM tomcat:9.0.20-jre11
 EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "/myweb-8.2.0.war"]
+ADD target/myweb-8.2.0.war /usr/local/tomcat/webapps/myweb-8.2.0.war
+ENTRYPOINT ["catalina.sh", "run"]
