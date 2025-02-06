@@ -1,4 +1,11 @@
-FROM tomcat:9.0.20-jre11
+# Use the official Tomcat image with JDK 11
+FROM tomcat:9.0-jdk11-openjdk
+
+# Copy the WAR file to the Tomcat webapps directory
+COPY target/myweb-8.2.0.war /usr/local/tomcat/webapps/
+
+# Expose the default Tomcat port
 EXPOSE 8080
-ADD target/myweb-8.2.0.war /usr/local/tomcat/webapps/myweb-8.2.0.war
-ENTRYPOINT ["catalina.sh", "run"]
+
+# Start the Tomcat server
+CMD ["catalina.sh", "run"]
