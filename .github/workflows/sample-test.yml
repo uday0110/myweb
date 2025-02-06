@@ -57,7 +57,7 @@ jobs:
           CPU=2048
           MEMORY=4096
           CONTAINER_NAME=myweb-container
-          PORT=8080
+          PORT=80
 
           echo "Registering a new task definition..."
           aws ecs register-task-definition \
